@@ -1,16 +1,30 @@
 $(document).ready(function(){
-  getWeather();
+
 })
 
-function getWeather(){
-  var url = "https://api.openweathermap.org/data/2.5/weather?q=London&unitys=imperial&APPID="+apiKey;
+function getWeather(searchQuery){
+  var url = "https://api.openweathermap.org/data/2.5/weather?q="+searchQuery+"&unitys=imperial&APPID="+apiKey;
   console.log(url);
+
+  $(".city").text(" ");
+  $(".temp").text(" ");
+  $(".error-message").text(" ");
+
+
 
   $.ajax(url, {success: function(data){
     console.log(data); //show result of response in console
     $(".city").text(data.name);
     $(".temp").text(data.main.temp);
+  }, error: function(error){
+    $(".error-message").text("An error occured");
   }})
+}
+
+
+function searchWeather(){
+  var searchQuery = $(".search").val();
+  getWeather(searchQuery);
 }
 
 
