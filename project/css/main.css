@@ -5,12 +5,12 @@ body {
 }
 
 h1 {
-  font-family: 'Lobster', cursive;
+  font-family: 'Noto Sans JP', sans-serif;
   color: orange;
 }
 
 p {
-  font-family: "Courier New";
+  font-family: 'Lato', sans-serif;
   font-size: 30px;
 }
 
