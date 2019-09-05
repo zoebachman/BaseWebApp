@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+  getPosts();
 })
 
 function getWeather(searchQuery){
@@ -49,6 +49,7 @@ function handleSignIn(){
 }
 
 function addMessage(postTitle, postBody){
+  $(".error-message-post").text("");
   var postData = {
     title: postTitle,
     body: postBody
@@ -59,8 +60,17 @@ function addMessage(postTitle, postBody){
 
   // Create a new post reference with an auto-generated id
   var newPostRef = database.push();
-  newPostRef.set(postData);
+  newPostRef.set(postData, function(error) {
+    if (error) {
+      $(".error-message-post").text("An error occured");
+
+    } else {
+      // $(".error-message-post").text("Post Successful!");
+      window.location.reload();
+    }
+  });
 }
+
 
 function handleMessageFormSubmit(){
   var postTitle = $("#post-title").val();
@@ -68,6 +78,22 @@ function handleMessageFormSubmit(){
   console.log(postTitle);
 
   addMessage(postTitle, postBody);
+}
+
+function getPosts(){
+  return firebase.database().ref("posts").once('value').then(function(snapshot) {
+    var posts = snapshot.val();
+    console.log(posts);
+
+    for(var postKey in posts){
+      var post = posts[postKey];
+      console.log(postKey);
+      console.log(post);
+      $("#post-listing").append("<div>"+post.title+" - "+post.body+"</div>");
+
+    }    
+
+  });
 }
 
 
